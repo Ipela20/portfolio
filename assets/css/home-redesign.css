@@ -1,4 +1,10 @@
-/* ===== HOME REDESIGN — Hero professionnel ===== */
+/* =====================================================================
+   HOME-REDESIGN.CSS — Section Accueil (Hero)
+   Redéfinit entièrement .home (fond clair, réseau de particules en
+   arrière-plan, titre bicolore, bouton CTA glow, réseaux sociaux).
+   Chargé en DERNIER dans index.html pour garantir la priorité sur
+   les règles générique de .home présentes dans style.css.
+===================================================================== */
 
 .home {
   min-height: calc(100vh - 6.5rem) !important;
@@ -127,9 +133,6 @@
   transform: translateY(-5px);
   background: #2506ad;
   color: white;
-}
-.home .socials {
-  display:none;
 }
 
 @media screen and (max-width: 600px) {
