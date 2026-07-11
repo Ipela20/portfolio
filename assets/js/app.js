@@ -1,8 +1,6 @@
-/* -----------------------------------------------------------------
-   APP.JS — Initialisation de particles.js (réseau animé de l'accueil)
-   Bibliothèque : particles.js v2.0.0 (chargée en CDN dans index.html)
-   Couleurs alignées sur le thème clair de l'accueil (#0b1f43).
------------------------------------------------------------------ */
+/* -----------------------------------------------
+/* How to use? : Check the GitHub README
+/* ----------------------------------------------- */
 particlesJS('particles-js',
 
   {

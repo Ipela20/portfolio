@@ -1,40 +1,27 @@
-/* =====================================================================
-   SCRIPT.JS — Comportements interactifs du portfolio
-   Sections : menu mobile / scroll spy, formulaire de contact (EmailJS),
-   effet machine à écrire, chargement dynamique des compétences et
-   projets (JSON), cartes retournables, animations ScrollReveal,
-   modal CV.
-===================================================================== */
-
 $(document).ready(function () {
 
-    // Menu mobile (hamburger) : ouverture/fermeture au clic
     $('#menu').click(function () {
         $(this).toggleClass('fa-times');
         $('.navbar').toggleClass('nav-toggle');
     });
 
     $(window).on('scroll load', function () {
-        // Ferme le menu mobile si l'utilisateur scrolle
         $('#menu').removeClass('fa-times');
         $('.navbar').removeClass('nav-toggle');
 
-        // Bouton "retour en haut" visible après 60px de scroll
         if (window.scrollY > 60) {
             document.querySelector('#scroll-top').classList.add('active');
         } else {
             document.querySelector('#scroll-top').classList.remove('active');
         }
 
-        // Header transparent -> blanc après 30px de scroll
         if (window.scrollY > 30) {
             document.querySelector('.header').classList.add('scrolled');
         } else {
             document.querySelector('.header').classList.remove('scrolled');
         }
 
-        // Scroll spy : met en surbrillance le lien du menu correspondant
-        // à la section actuellement visible
+        // scroll spy
         $('section').each(function () {
             let height = $(this).height();
             let offset = $(this).offset().top - 200;
@@ -48,7 +35,7 @@ $(document).ready(function () {
         });
     });
 
-    // Défilement fluide vers les ancres (#section)
+    // smooth scrolling
     $('a[href*="#"]').on('click', function (e) {
         e.preventDefault();
         $('html, body').animate({
@@ -56,11 +43,11 @@ $(document).ready(function () {
         }, 500, 'linear')
     });
 
-    // Envoi du formulaire de contact via EmailJS
+    // <!-- emailjs to mail contact form data -->
     $("#contact-form").submit(function (event) {
         emailjs.init({
-            publicKey: "pvAFYY_9NxS-fzFEm"
-        });
+    publicKey: "pvAFYY_9NxS-fzFEm"
+});
 
         emailjs.sendForm('service_b0gfcva', 'template_qait78d', '#contact-form')
             .then(function (response) {
@@ -74,35 +61,37 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    // <!-- emailjs to mail contact form data -->
+
 });
 
-// Change le titre de l'onglet + le favicon quand l'utilisateur quitte
-// puis revient sur la page
-document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === "visible") {
-        document.title = "Portfolio | Boris Igor BALIMA";
-        $("#favicon").attr("href", "assets/images/favicon.png");
-    } else {
-        document.title = "Come Back To Portfolio";
-        $("#favicon").attr("href", "assets/images/favhand.png");
-    }
-});
-
-// Boutons "Voir plus / Voir moins" dans la section Expérience
-document.querySelectorAll('.voir-plus-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        const details = button.nextElementSibling;
-        if (details.style.display === "block") {
-            details.style.display = "none";
-            button.textContent = "Voir plus";
-        } else {
-            details.style.display = "block";
-            button.textContent = "Voir moins";
+document.addEventListener('visibilitychange',
+    function () {
+        if (document.visibilityState === "visible") {
+            document.title = "Portfolio | Boris Igor BALIMA";
+            $("#favicon").attr("href", "assets/images/favicon.png");
+        }
+        else {
+            document.title = "Come Back To Portfolio";
+            $("#favicon").attr("href", "assets/images/favhand.png");
         }
     });
-});
 
-// Effet machine à écrire du sous-titre sur l'accueil
+    document.querySelectorAll('.voir-plus-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const details = button.nextElementSibling;
+            if (details.style.display === "block") {
+            details.style.display = "none";
+            button.textContent = "Voir plus";
+            } else {
+            details.style.display = "block";
+            button.textContent = "Voir moins";
+            }
+        });
+        });
+
+
+// <!-- typed js effect starts -->
 var typed = new Typed(".typing-text", {
     strings: ["Front-End Developer", "Ingénieur IA", "Ingénieur IoT"],
     loop: true,
@@ -110,16 +99,16 @@ var typed = new Typed(".typing-text", {
     backSpeed: 25,
     backDelay: 500,
 });
+// <!-- typed js effect ends -->
 
-/**
- * Charge un fichier JSON (compétences ou projets).
- * @param {"skills"|"projects"} type
- */
 async function fetchData(type = "skills") {
-    const response = type === "skills"
-        ? await fetch("skills.json")
-        : await fetch("Projects/projects.json"); // "Projects" avec P majuscule : doit correspondre EXACTEMENT au nom du dossier suivi par Git (sensible à la casse en ligne, contrairement à Windows en local)
-    return await response.json();
+    let response
+    type === "skills" ?
+        response = await fetch("skills.json")
+        :
+       response = await fetch("Projects/projects.json")
+    const data = await response.json();
+    return data;
 }
 
 // ===== SKILLS : affichage en cartes catégorisées =====
@@ -154,11 +143,10 @@ function showSkills(categories) {
     skillsContainer.innerHTML = html;
 }
 
-// ===== PROJETS : cartes qui se retournent au survol (recto/verso) =====
+// ===== PROJETS : cartes qui se retournent au survol =====
 function showProjects(projects) {
     let projectsContainer = document.querySelector("#work .box-container");
     let projectHTML = "";
-
     projects.forEach(project => {
         projectHTML += `
         <div class="flip-card">
@@ -166,8 +154,9 @@ function showProjects(projects) {
 
             <div class="flip-card-front">
               <div class="box-img-wrap">
-                <img loading="lazy" draggable="false"
-                     src="assets/images/projects/${project.image}" alt="${project.name}"
+                <img loading="lazy"
+                    draggable="false"
+                    src="assets/images/projects/${project.image}" alt="${project.name}"
                      onerror="this.onerror=null; this.src='https://img.icons8.com/fluency/96/000000/code-file.png'; this.classList.add('img-fallback');" />
               </div>
               <span class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler pour en savoir plus</span>
@@ -180,32 +169,61 @@ function showProjects(projects) {
             </div>
 
           </div>
-        </div>`;
+        </div>`
     });
-
     projectsContainer.innerHTML = projectHTML;
 
-    // Anime l'apparition des cartes projets au scroll
-    // (instance locale car les cartes n'existent qu'après ce rendu)
-    const srtopProjects = ScrollReveal({
+    /* ===== SCROLL REVEAL ANIMATION ===== */
+    const srtop = ScrollReveal({
         origin: 'top',
         distance: '80px',
         duration: 1000,
         reset: true
     });
-    srtopProjects.reveal('.work .flip-card', { interval: 200 });
+
+    /* SCROLL PROJECTS */
+    srtop.reveal('.work .flip-card', { interval: 200 });
+
 }
 
-// Chargement initial des données dynamiques
-fetchData().then(data => showSkills(data));
-fetchData("projects").then(data => showProjects(data));
+fetchData().then(data => {
+    showSkills(data);
+});
 
-// Effet tilt 3D léger au survol des éléments marqués .tilt
+fetchData("projects").then(data => {
+    showProjects(data);
+});
+
+// <!-- tilt js effect starts -->
 VanillaTilt.init(document.querySelectorAll(".tilt"), {
     max: 15,
 });
+// <!-- tilt js effect ends -->
 
-/* ===== Animations ScrollReveal (apparition au scroll) ===== */
+
+// disable developer mode
+document.onkeydown = function (e) {
+    if (e.keyCode == 123) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+    }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+    }
+}
+
+
+
+
+/* ===== SCROLL REVEAL ANIMATION ===== */
 const srtop = ScrollReveal({
     origin: 'top',
     distance: '80px',
@@ -213,37 +231,39 @@ const srtop = ScrollReveal({
     reset: true
 });
 
-// Accueil
+/* SCROLL HOME */
 srtop.reveal('.home .content h3', { delay: 200 });
 srtop.reveal('.home-subtitle', { delay: 200 });
 srtop.reveal('.home-cta', { delay: 400 });
 srtop.reveal('.home-socials a', { interval: 200 });
 
-// À propos
+/* SCROLL ABOUT */
 srtop.reveal('.about .content h3', { delay: 200 });
 srtop.reveal('.about .content .tag', { delay: 200 });
 srtop.reveal('.about .content p', { delay: 200 });
 srtop.reveal('.about .content .box-container', { delay: 200 });
 srtop.reveal('.about .content .resumebtn', { delay: 200 });
 
-// Compétences
+
+/* SCROLL SKILLS */
 srtop.reveal('.skills .container', { interval: 200 });
 srtop.reveal('.skill-category', { interval: 200 });
 
-// Formation
+/* SCROLL EDUCATION */
 srtop.reveal('.education .box', { interval: 200 });
 
-// Expérience
+/* SCROLL EXPERIENCE */
 srtop.reveal('.experience .timeline', { delay: 400 });
 srtop.reveal('.experience .timeline .container', { interval: 400 });
 
-// Contact
+/* SCROLL CONTACT */
 srtop.reveal('.contact .container', { delay: 400 });
 srtop.reveal('.contact .container .form-group', { delay: 400 });
 
-/* ===== Modal CV ===== */
-const cvModal = document.getElementById('cvModal');
 
+
+// ===== Modal CV =====
+const cvModal = document.getElementById('cvModal');
 document.querySelectorAll('.open-cv-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -251,14 +271,26 @@ document.querySelectorAll('.open-cv-modal').forEach(btn => {
         document.body.style.overflow = 'hidden';
     });
 });
-
 function closeCvModal() {
     cvModal.classList.remove('active');
     document.body.style.overflow = '';
 }
-
 document.querySelector('.cv-modal-close').addEventListener('click', closeCvModal);
 document.querySelector('.cv-modal-overlay').addEventListener('click', closeCvModal);
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeCvModal();
 });
+
+// Menu toggle (mobile)
+let menu = document.querySelector("#menu");
+let navbar = document.querySelector(".navbar");
+
+menu.onclick = () => {
+  menu.classList.toggle("fa-times");
+  navbar.classList.toggle("nav-toggle");
+};
+
+window.onscroll = () => {
+  menu.classList.remove("fa-times");
+  navbar.classList.remove("nav-toggle");
+};
