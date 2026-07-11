@@ -1526,3 +1526,86 @@ form .button-area {
   top: calc(100% - 12rem);
 }
 /* scroll top ends */
+
+/* ===========================================
+   ABOUT
+=========================================== */
+
+.about .box p{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    line-height:1.8;
+}
+
+.about .box p span{
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.about .box p a{
+    color:inherit;
+    text-decoration:none;
+    word-break:break-word;
+}
+
+.about .box p i{
+    color:#7303a7;
+}
+
+
+.work .box-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+    gap:30px;
+    align-items:stretch;
+}
+
+.flip-card{
+    width:100%;
+    height:420px;
+}
+
+.flip-card-inner{
+    width:100%;
+    height:100%;
+}
+
+.flip-card-front,
+.flip-card-back{
+    width:100%;
+    height:100%;
+}
+
+.flip-card-back{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.flip-card-back h3{
+    min-height:55px;
+}
+
+.flip-card-back p{
+    flex:1;
+}
+
+.box-img-wrap{
+    height:230px;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box-img-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.flip-card-back .btn{
+    margin-top:20px;
+}

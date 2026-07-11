@@ -45,7 +45,9 @@ $(document).ready(function () {
 
     // <!-- emailjs to mail contact form data -->
     $("#contact-form").submit(function (event) {
-        emailjs.init("pvAFYY_9NxS-fzFEm");
+        emailjs.init({
+    publicKey: "pvAFYY_9NxS-fzFEm"
+});
 
         emailjs.sendForm('service_b0gfcva', 'template_qait78d', '#contact-form')
             .then(function (response) {
@@ -104,7 +106,7 @@ async function fetchData(type = "skills") {
     type === "skills" ?
         response = await fetch("skills.json")
         :
-        response = await fetch("./Projects/projects.json")
+       response = await fetch("Projects/projects.json")
     const data = await response.json();
     return data;
 }
@@ -152,7 +154,9 @@ function showProjects(projects) {
 
             <div class="flip-card-front">
               <div class="box-img-wrap">
-                <img draggable="false" src="./assets/images/projects/${project.image}" alt="${project.name}"
+                <img loading="lazy"
+                    draggable="false"
+                    src="assets/images/projects/${project.image}" alt="${project.name}"
                      onerror="this.onerror=null; this.src='https://img.icons8.com/fluency/96/000000/code-file.png'; this.classList.add('img-fallback');" />
               </div>
               <span class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler pour en savoir plus</span>
